@@ -22,6 +22,7 @@ We make a calculation in this particular case, see the code for [ComputeElectric
 
 ```{r}
 library(ggplot2)
+library(cowplot)
 source('func.R')
 K = 9e9       # dielectric constant in vacuum 
 Q = 8.8e-9    # charge on plate in [Q]
@@ -66,4 +67,30 @@ d=rbind(d,d1[,1:3])
 d$dQf = factor(signif(d$dQ,2))
 ggplot(d, aes(x,y,col=dQf))+
   geom_point() + theme_bw() + xlab('x') + ylab('y')
+```
+
+
+```{r}
+p1 <- ggplot(d1, aes(y, Ey)) +
+  geom_line(col='red') +
+  xlab('y-position (m)') +
+  ylab(expression(paste('E'[y],' (V/m)'))) +
+  theme_bw()
+
+p2 <- ggplot(d1, aes(y, Ex)) +
+  geom_line(col='red') +
+  xlab('y-position (m)') +
+  ylab(expression(paste('E'[x],' (V/m)'))) +
+  theme_bw()
+plot_grid(p1,p2)
+```
+
+# Compute the Potential Difference and Work
+
+
+```{r}
+dV = sum(diff(d1$y)*d1$Ey[-1])
+dV
+# work
+1.6e-19*dV
 ```

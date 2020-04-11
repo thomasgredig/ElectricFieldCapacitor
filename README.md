@@ -24,6 +24,22 @@ We make a calculation in this particular case, see the code for
 
 ``` r
 library(ggplot2)
+library(cowplot)
+```
+
+    ## 
+    ## ********************************************************
+
+    ## Note: As of version 1.0.0, cowplot does not change the
+
+    ##   default ggplot2 theme anymore. To recover the previous
+
+    ##   behavior, execute:
+    ##   theme_set(theme_cowplot())
+
+    ## ********************************************************
+
+``` r
 source('func.R')
 K = 9e9       # dielectric constant in vacuum 
 Q = 8.8e-9    # charge on plate in [Q]
@@ -69,3 +85,36 @@ ggplot(d, aes(x,y,col=dQf))+
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+p1 <- ggplot(d1, aes(y, Ey)) +
+  geom_line(col='red') +
+  xlab('y-position (m)') +
+  ylab(expression(paste('E'[y],' (V/m)'))) +
+  theme_bw()
+
+p2 <- ggplot(d1, aes(y, Ex)) +
+  geom_line(col='red') +
+  xlab('y-position (m)') +
+  ylab(expression(paste('E'[x],' (V/m)'))) +
+  theme_bw()
+plot_grid(p1,p2)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+# Compute the Potential Difference and Work
+
+``` r
+dV = sum(diff(d1$y)*d1$Ey[-1])
+dV
+```
+
+    ## [1] 849.2589
+
+``` r
+# work
+1.6e-19*dV
+```
+
+    ## [1] 1.358814e-16
