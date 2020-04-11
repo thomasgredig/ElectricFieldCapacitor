@@ -83,7 +83,7 @@ d = data.frame( x=sx,y=sy,dQ)
 
 d1 = data.frame()
 for(oy in seq(from=0.18, to=0.02, by=-0.001)) {
-  ox=0.001
+  ox=-0.05
   numericallyAddElectricFieldSquare(dQ, sx, sy, sz, ox, oy) -> E
   d1 = rbind(d1, data.frame(x=ox, y=oy, dQ=0, Ex=E[1], Ey=E[2]))
 }
