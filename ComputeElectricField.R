@@ -11,7 +11,7 @@ source('func.R')
 K = 9e9   # dielectric constant in vacuum
 Q.line = 2e-9
 Q = 8.8e-9
-#Q = 1200*0.15*0.15/(4*pi*K)/0.2
+# Q = 1200*0.3*0.3/(4*pi*K)/0.2
 
 # for LINE charge
 #################

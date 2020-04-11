@@ -1,28 +1,26 @@
-README
-================
-Thomas Gredig
-4/10/2020
+---
+title: "README"
+author: "Thomas Gredig"
+date: "4/10/2020"
+output: 
+  rmarkdown::github_document
+---
 
 # ElectricFieldCapacitor
 
-In a parallel plate capacitor the electric field \(E\) in the center is
-approximately constant and can be approximated with
+In a parallel plate capacitor the electric field $E$ in the center is approximately constant and can be approximated with
 
 ![](eq1.png)
 
-if the capacitor separation distance \(d\) is much smaller than the
-plate size L. If the plates are not sufficiently close, then the
-electric field is not constant.
 
-The problem at hand is a capacitor with 20cm separation and square
-plates of 30cm length, and area \(A=L^2\) of 900cm\(^2\). If a potential
-of 1200V is applied what is the potential difference of 16cm in the
-middle part of the capacitor.
+if the capacitor separation distance $d$ is much smaller than the plate size L. If the plates are not sufficiently close, then the electric field is not constant. 
 
-We make a calculation in this particular case, see the code for
-[ComputeElectricField.R](ComputeElectricField.R).
+The problem at hand is a capacitor with 20cm separation and square plates of 30cm length, and area $A=L^2$ of 900cm$^2$. If a potential of 1200V is applied what is the potential difference of 16cm in the middle part of the capacitor.
 
-``` r
+We make a calculation in this particular case, see the code for [ComputeElectricField.R](ComputeElectricField.R).
+
+
+```{r}
 library(ggplot2)
 source('func.R')
 K = 9e9       # dielectric constant in vacuum 
@@ -31,9 +29,10 @@ L1 = 0.15     # half the plate distance, in [m]
 D1 = 0.2      # plate separation distance in [m]
 ```
 
+
 # Setup Finite Charge Planes
 
-``` r
+```{r}
 # create a square source charge at y = 0 (neg charge) and y=0.2 (pos charge)
 sx = c(seq(from=-L1, to=L1, by=0.01),seq(from=-L1, to=L1, by=0.01))
 l1 = length(sx)/2
@@ -47,9 +46,10 @@ sy = c(rep(D1, l3), rep(0, l3))
 dQ = c(rep(Q/l3,l3), rep(-Q/l3,l3))
 ```
 
+
 # Computation
 
-``` r
+```{r}
 d1 = data.frame()
 for(oy in seq(from=0.18, to=0.02, by=-0.001)) {
   ox=-0.05
@@ -60,12 +60,10 @@ for(oy in seq(from=0.18, to=0.02, by=-0.001)) {
 
 # Display Plates with Charges and Integration Path
 
-``` r
+```{r}
 d = data.frame( x=sx,y=sy,dQ)
 d=rbind(d,d1[,1:3])
 d$dQf = factor(signif(d$dQ,2))
 ggplot(d, aes(x,y,col=dQf))+
   geom_point() + theme_bw() + xlab('x') + ylab('y')
 ```
-
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
